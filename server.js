@@ -1,17 +1,18 @@
 //const express = require("express");
-// we can use import with -r esm npm install esm
-// "start": "nodemon -r esm server.js"
-import express from "express";
-// import router from "./routes/auth";     replaced with fs....
+import express from "express";//import with -r esm npm install esm{"start": "nodemon -r esm server.js"}
 import { readdirSync } from "fs";
+const morgan = require("morgan");
+require("dotenv").config();
 
 const app = express();
 
+// middlewares
+app.use(morgan("dev"));
+
 // route middleware
-// fs file system to read all the files from the folder and apply them as a middleware
 readdirSync("./routes").map((r) => app.use("/api", require(`./routes/${r}`)))
-// app.use("/api",router)      replaced with fs...
 
 
 
-app.listen(8000, () => console.log(`Server is running on port 8000`));
+const port = process.env.PORT || 8000;
+app.listen(port, () => console.log(`Server is running on port ${port}`));
