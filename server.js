@@ -9,6 +9,7 @@ const app = express();
 // middlewares
 app.use(morgan("dev"));
 
+
 // route middleware
 readdirSync("./routes").map((r) => app.use("/api", require(`./routes/${r}`)))
 
