@@ -2,11 +2,10 @@ import express from "express";
 const router = express.Router();
 
 //controllers
-import { showMessage } from "../controllers/auth"
+import { showMessage, register } from "../controllers/auth"
 
 router.get("/:message", showMessage);
+router.post("/register", register);
 
-
-// export default router;  since we are using required in server.js to import
-//we should use 
+ 
 module.exports = router;
