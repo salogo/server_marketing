@@ -1,4 +1,5 @@
-import User from "../models/user"
+import User from "../models/user";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
     console.log("REQ.BODY...",req.body)
@@ -36,7 +37,21 @@ export const login = async ( req, res ) => {
       user.comparePassword(password, ( err, match) => {
           console.log("COMPARE PASSWORD IN LOGIN ERR", err);
           if (!match || err ) return res.status(400).send("Wrong password or email");
-          console.log("Generate a token...");
+          //Generate a token
+          let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+              expiresIn: "7d",
+          });
+          res.json({
+               token, 
+               user: {
+                   _id: user._id,
+                   name: user.name,
+                   email: user.email,
+                   createdAt: user.createdAt,
+                   updatedAt: user.updatedAt,
+
+          },
+        });
       });
 
   } catch (err) {
